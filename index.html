@@ -290,22 +290,30 @@ p{margin:0 0 15px}
 .bcard:active{transform:translateY(1px)}
 .bcard.on{border-color:var(--gold-dim);background:linear-gradient(180deg,rgba(201,164,92,.11),rgba(201,164,92,.02))}
 .bcard .shot{display:block;position:relative;aspect-ratio:4/3;overflow:hidden;
-  background:radial-gradient(120% 90% at 30% 8%,rgba(201,164,92,.10),transparent 60%),linear-gradient(160deg,#0C1A2E,#070F1C)}
-.bcard .shot img{width:100%;height:100%;object-fit:cover;display:block}
+  background:radial-gradient(118% 92% at 50% 30%,#FCFAF4 0%,#F1EADC 46%,#DED5C2 100%)}
+/* 影棚接触阴影:六张统一,消除"贴图感" */
+.bcard .shot.photo::after{display:none}
+.bcard .shot img{width:100%;height:100%;object-fit:contain;padding:7%;display:block;
+  filter:drop-shadow(0 7px 11px rgba(58,42,22,.30)) drop-shadow(0 1px 2px rgba(58,42,22,.18))}
+.bcard .shot.photo img{object-fit:cover;padding:0;filter:saturate(.72) contrast(.94) brightness(1.10)}
 .bcard .shot .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-family:var(--serif);font-weight:600;font-size:25px;letter-spacing:.14em;color:rgba(201,164,92,.46)}
 .bcard .shot .ph::after{content:"";position:absolute;left:18%;right:18%;bottom:22%;height:1px;
   background:linear-gradient(90deg,transparent,rgba(201,164,92,.3),transparent)}
 .bcard .cap{display:block;padding:12px 13px 13px}
 .bcard .cap b{display:block;font-family:var(--serif);font-weight:600;font-size:15.5px;letter-spacing:.08em}
-.bcard .cap em{font-style:normal;display:block;font-size:10.5px;color:var(--paper-faint);margin-top:5px;letter-spacing:.05em}
+.bcard .cap em{font-style:normal;display:block;font-size:11.5px;color:rgba(241,238,231,.68);margin-top:5px;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bnote{margin:0 0 20px;font-size:12.5px;letter-spacing:.06em;color:var(--gold)}
 .bcard.on .cap b{color:var(--gold-lt)}
 .bdetail{display:none;margin:16px 0 0;border:1px solid var(--gold-line);border-radius:14px;overflow:hidden;
   background:rgba(10,20,36,.55)}
 .bdetail.on{display:block;animation:panelIn .42s cubic-bezier(.22,.7,.24,1) both}
 .bdetail .big{aspect-ratio:16/10;overflow:hidden;position:relative;
-  background:radial-gradient(120% 90% at 30% 8%,rgba(201,164,92,.10),transparent 60%),linear-gradient(160deg,#0C1A2E,#070F1C)}
-.bdetail .big img{width:100%;height:100%;object-fit:cover;display:block}
+  background:radial-gradient(118% 92% at 50% 30%,#FCFAF4 0%,#F1EADC 46%,#DED5C2 100%)}
+.bdetail .big.photo::after{display:none}
+.bdetail .big img{width:100%;height:100%;object-fit:contain;padding:6%;display:block;
+  filter:drop-shadow(0 12px 18px rgba(58,42,22,.30)) drop-shadow(0 2px 3px rgba(58,42,22,.16))}
+.bdetail .big.photo img{object-fit:cover;padding:0;filter:saturate(.72) contrast(.94) brightness(1.10)}
 .bdetail .big .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-family:var(--serif);font-weight:600;font-size:34px;letter-spacing:.18em;color:rgba(201,164,92,.44)}
 .bdetail .info{padding:16px 16px 18px}
@@ -489,7 +497,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 <main class="wrap">
   <section>
     <h2 class="serif reveal" id="brands">六大品牌矩阵</h2>
-    <div class="bgroup reveal"><p class="bh"><b>五常市川江米业有限公司</b>五常 · 稻花香核心产区</p><div class="bgrid"><button class="bcard on" data-brand="0" aria-label="粮中帝"><span class="shot"><img src="assets/brands/liangzhongdi.jpg" alt="粮中帝包装" loading="lazy"></span><span class="cap"><b>粮中帝</b><em>双核心品牌</em></span></button><button class="bcard" data-brand="1" aria-label="北荒田"><span class="shot"><img src="assets/brands/beihuangtian.jpg" alt="北荒田包装" loading="lazy"></span><span class="cap"><b>北荒田</b><em>双核心品牌</em></span></button><button class="bcard" data-brand="2" aria-label="龙粮张府"><span class="shot"><img src="assets/brands/longliangzhangfu.jpg" alt="龙粮张府包装" loading="lazy"></span><span class="cap"><b>龙粮张府</b><em>五常 · 稻花香核心产区</em></span></button></div></div><div class="bgroup reveal"><p class="bh"><b>海伦市金利米业有限公司</b>海伦 · 寒地黑土硒都</p><div class="bgrid"><button class="bcard" data-brand="3" aria-label="张知府"><span class="shot"><img src="assets/brands/zhangzhifu.jpg" alt="张知府包装" loading="lazy"></span><span class="cap"><b>张知府</b><em>海伦 · 寒地黑土硒都</em></span></button><button class="bcard" data-brand="4" aria-label="秋稻夫"><span class="shot"><img src="assets/brands/qiudaofu.jpg" alt="秋稻夫包装" loading="lazy"></span><span class="cap"><b>秋稻夫</b><em>海伦 · 寒地黑土硒都</em></span></button><button class="bcard" data-brand="5" aria-label="老荒田"><span class="shot"><img src="assets/brands/laohuangtian.jpg" alt="老荒田包装" loading="lazy"></span><span class="cap"><b>老荒田</b><em>黑龙江好粮油</em></span></button></div></div><div class="reveal"><div class="bdetail on" data-bpanel="0"><div class="big"><img src="assets/brands/liangzhongdi.jpg" alt="粮中帝包装" loading="lazy"></div><div class="info"><b>粮中帝</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香核心产区</dd><dt>产品线</dt><dd>五常稻花香系列</dd><dt>资质</dt><dd>双核心品牌</dd></dl></div></div><div class="bdetail" data-bpanel="1"><div class="big"><img src="assets/brands/beihuangtian.jpg" alt="北荒田包装" loading="lazy"></div><div class="info"><b>北荒田</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香核心产区</dd><dt>产品线</dt><dd>五常稻花香系列</dd><dt>资质</dt><dd>双核心品牌</dd></dl></div></div><div class="bdetail" data-bpanel="2"><div class="big"><img src="assets/brands/longliangzhangfu.jpg" alt="龙粮张府包装" loading="lazy"></div><div class="info"><b>龙粮张府</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香核心产区</dd><dt>产品线</dt><dd>五常稻花香系列</dd></dl></div></div><div class="bdetail" data-bpanel="3"><div class="big"><img src="assets/brands/zhangzhifu.jpg" alt="张知府包装" loading="lazy"></div><div class="info"><b>张知府</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>海伦富硒米系列</dd></dl></div></div><div class="bdetail" data-bpanel="4"><div class="big"><img src="assets/brands/qiudaofu.jpg" alt="秋稻夫包装" loading="lazy"></div><div class="info"><b>秋稻夫</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>海伦富硒米系列</dd></dl></div></div><div class="bdetail" data-bpanel="5"><div class="big"><img src="assets/brands/laohuangtian.jpg" alt="老荒田包装" loading="lazy"></div><div class="info"><b>老荒田</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>海伦富硒米系列</dd><dt>资质</dt><dd>黑龙江好粮油</dd></dl></div></div></div>
+    <p class="bnote reveal">五常川江 · 五常稻花香产区　｜　海伦金利 · 寒地黑土硒都</p><div class="bgrid reveal"><button class="bcard on" data-brand="0" aria-label="粮中帝"><span class="shot"><img src="assets/brands/liangzhongdi.webp" alt="粮中帝包装" loading="lazy"></span><span class="cap"><b>粮中帝</b><em>五常川江 · 稻花香</em></span></button><button class="bcard" data-brand="1" aria-label="北荒田"><span class="shot photo"><img src="assets/brands/beihuangtian.jpg" alt="北荒田包装" loading="lazy"></span><span class="cap"><b>北荒田</b><em>五常川江 · 稻花香</em></span></button><button class="bcard" data-brand="2" aria-label="龙粮张府"><span class="shot"><img src="assets/brands/longliangzhangfu.webp" alt="龙粮张府包装" loading="lazy"></span><span class="cap"><b>龙粮张府</b><em>五常川江 · 稻花香</em></span></button><button class="bcard" data-brand="3" aria-label="通乡河"><span class="shot"><img src="assets/brands/tongxianghe.webp" alt="通乡河包装" loading="lazy"></span><span class="cap"><b>通乡河</b><em>海伦金利 · 珍珠米</em></span></button><button class="bcard" data-brand="4" aria-label="秋稻夫"><span class="shot"><img src="assets/brands/qiudaofu.webp" alt="秋稻夫包装" loading="lazy"></span><span class="cap"><b>秋稻夫</b><em>海伦金利 · 稻香米 2 号</em></span></button><button class="bcard" data-brand="5" aria-label="老荒田"><span class="shot"><img src="assets/brands/laohuangtian.webp" alt="老荒田包装" loading="lazy"></span><span class="cap"><b>老荒田</b><em>海伦金利 · 生态稻香米</em></span></button></div><div class="reveal"><div class="bdetail on" data-bpanel="0"><div class="big"><img src="assets/brands/liangzhongdi.webp" alt="粮中帝包装" loading="lazy"></div><div class="info"><b>粮中帝</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香产区</dd><dt>产品线</dt><dd>五常大米 · 稻花香</dd><dt>资质</dt><dd>双核心品牌</dd></dl></div></div><div class="bdetail" data-bpanel="1"><div class="big photo"><img src="assets/brands/beihuangtian.jpg" alt="北荒田包装" loading="lazy"></div><div class="info"><b>北荒田</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香产区</dd><dt>产品线</dt><dd>五常大米 · 稻花香</dd><dt>资质</dt><dd>双核心品牌</dd></dl></div></div><div class="bdetail" data-bpanel="2"><div class="big"><img src="assets/brands/longliangzhangfu.webp" alt="龙粮张府包装" loading="lazy"></div><div class="info"><b>龙粮张府</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香产区</dd><dt>产品线</dt><dd>五常大米 · 稻花香</dd></dl></div></div><div class="bdetail" data-bpanel="3"><div class="big"><img src="assets/brands/tongxianghe.webp" alt="通乡河包装" loading="lazy"></div><div class="info"><b>通乡河</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>东北珍珠米</dd></dl></div></div><div class="bdetail" data-bpanel="4"><div class="big"><img src="assets/brands/qiudaofu.webp" alt="秋稻夫包装" loading="lazy"></div><div class="info"><b>秋稻夫</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>稻香米 2 号</dd></dl></div></div><div class="bdetail" data-bpanel="5"><div class="big"><img src="assets/brands/laohuangtian.webp" alt="老荒田包装" loading="lazy"></div><div class="info"><b>老荒田</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>生态稻香米</dd><dt>资质</dt><dd>黑龙江好粮油</dd></dl></div></div></div>
     <p class="note reveal">聚焦「北荒田 ＋ 粮中帝」双核心品牌，联动战略合作商打造标杆市场，全域渗透终端。</p>
   </section>
 
@@ -498,7 +506,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
     <div class="plant reveal">
   <h4>海伦市金利米业有限公司</h4>
   <p class="meta">成立于 2011　绥化海伦 · 寒地黑土 · 中国黑土硒都　主产富硒米</p>
-  <ul class="facts"><li>厂区占地 3 万平方米，员工 80 余人</li><li>2 条现代化大米加工生产线，年加工能力 20 万吨</li><li>绿色食品标准生产线及胚芽米设备</li></ul>
+  <ul class="facts"><li>厂区占地 3 万平方米，员工 80 余人</li><li>2 条现代化大米加工生产线，年加工能力 20 万吨</li><li>绿色食品标准生产线及胚芽米设备</li><li>配套品牌：通乡河、秋稻夫、老荒田</li></ul>
 </div><div class="plant reveal">
   <h4>五常市川江米业有限公司</h4>
   <p class="meta">成立于 2022　哈尔滨五常 · 背荫河镇 · 稻花香核心产区　主产稻花香</p>
