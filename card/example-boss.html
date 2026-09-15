@@ -110,14 +110,12 @@ picture{display:contents}
 .hero-scrim{position:absolute;inset:0;z-index:-1;background:
   linear-gradient(180deg,rgba(5,11,22,.74) 0%,rgba(5,11,22,.28) 20%,rgba(5,11,22,.58) 40%,rgba(5,11,22,.89) 66%,rgba(5,11,22,.97) 86%,var(--bg) 100%)}
 .hero-inner{width:100%;max-width:720px;margin:0 auto;padding:0 var(--pad) calc(46px + 3svh)}
-/* 首屏品牌 —— 【第一屏只放 logo + 集团名，正文标题沉到第二屏，往下滑才出现】。
-   logo 居中偏上、集团名一行居中偏下，中间留白（比肩连排更大气）。
+/* 首屏品牌 —— 【品牌在顶、标题在底，同屏可见】（不做"独占一屏"，那样太空太呆）。
+   logo 和集团名的尺寸按用户要求保持大字号不动，只是整块上提到顶部。
    集团名单行：拆两行显琐碎，宁要一行清晰；字号按屏宽自适应。
    入场：logo 虚焦成像 → 集团名擦除显现 → 金线从中心展开（无扫光）。 */
-.hero-brand{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
-  min-height:101vh;min-height:101svh;
-  padding:calc(clamp(90px,18svh,180px) + env(safe-area-inset-top)) var(--pad)
-          calc(clamp(110px,28svh,240px) + env(safe-area-inset-bottom))}
+.hero-brand{position:relative;display:flex;flex-direction:column;align-items:center;
+  padding:calc(clamp(66px,11svh,120px) + env(safe-area-inset-top)) var(--pad) 0}
 .hb-mark{position:relative;display:block;line-height:0;
   animation:hbMark 1.25s cubic-bezier(.16,1,.3,1) both}
 .hb-mark img{width:clamp(158px,50vw,250px);height:auto;display:block;
@@ -141,11 +139,6 @@ picture{display:contents}
   background:linear-gradient(90deg,rgba(201,164,92,0) 0%,var(--gold-dim) 50%,rgba(201,164,92,0) 100%);
   animation:hbRule 1s cubic-bezier(.16,1,.3,1) .55s both}
 @keyframes hbRule{from{opacity:0;transform:scaleX(0)}to{opacity:.95;transform:scaleX(1)}}
-/* 下滑提示：一道极淡的金线轻轻呼吸。第一屏只有品牌，需要一点"下面还有"的暗示 */
-.hb-cue{position:absolute;bottom:calc(22px + env(safe-area-inset-bottom));left:50%;width:1px;height:40px;
-  margin-left:-.5px;background:linear-gradient(180deg,rgba(201,169,97,0),var(--gold-dim));
-  animation:hbCue 2.6s ease-in-out 1.6s infinite}
-@keyframes hbCue{0%,100%{opacity:.22;transform:translateY(-7px)}50%{opacity:.85;transform:translateY(7px)}}
 .eyebrow{font-size:11.5px;letter-spacing:.34em;color:var(--gold-lt);margin:0 0 18px;text-transform:uppercase}
 .hero h1{margin:0 0 20px;font-size:clamp(30px,8.8vw,44px);line-height:1.38;letter-spacing:.02em;text-wrap:balance}
 .hero h1 span{display:block}
@@ -462,8 +455,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 /* ---------- 矮屏(SE 等)收紧 ----------
    ⚠️ 这两档必须放在样式表【最后】：放前面会被后定义的基础规则覆盖掉（这个坑踩过一次）。 */
 @media (max-height:660px){
-  .hero-brand{padding:calc(clamp(64px,15svh,110px) + env(safe-area-inset-top)) var(--pad)
-          calc(clamp(80px,24svh,150px) + env(safe-area-inset-bottom))}
+  .hero-brand{padding-top:calc(clamp(56px,10svh,88px) + env(safe-area-inset-top))}
   .hb-mark img{width:clamp(120px,38vw,160px)}
   .hb-name{font-size:clamp(15px,calc((100vw - 46px)/15),22px)}
   .hb-lock{gap:12px}
@@ -473,13 +465,11 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
   .hero-inner{padding-bottom:calc(34px + 2svh)}
 }
 @media (max-height:520px){
-  .hero-brand{padding:calc(clamp(50px,13svh,80px) + env(safe-area-inset-top)) var(--pad)
-          calc(clamp(60px,20svh,110px) + env(safe-area-inset-bottom))}
+  .hero-brand{padding-top:calc(clamp(48px,9svh,72px) + env(safe-area-inset-top))}
   .hb-mark img{width:96px}
   .hb-name{font-size:clamp(13px,calc((100vw - 46px)/15.5),19px)}
   .hb-lock{gap:9px}
   .hb-rule{display:none}
-  .hb-cue{display:none}
   .hero h1{font-size:clamp(23px,7vw,32px);margin-bottom:14px}
   .hero-sub{font-size:12.5px;line-height:1.6;margin-bottom:14px}
   .hero-inner{padding-bottom:14px}
@@ -496,7 +486,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
   .reveal{opacity:1;transform:none;transition:none}
   .hero-img{animation:none}
   .hero-inner>*{animation:none}
-  .hb-mark,.hb-name,.hb-rule,.hb-cue{animation:none}
+  .hb-mark,.hb-name,.hb-rule{animation:none}
   html{scroll-behavior:auto}
 }
 </style>
