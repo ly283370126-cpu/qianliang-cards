@@ -85,15 +85,45 @@ img{max-width:100%}
 .brand img{height:30px;width:30px;display:block;flex:none}
 .brand b{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.14em;white-space:nowrap}
 .back{font-size:12.5px;color:var(--paper-dim);border:1px solid var(--line);padding:6px 13px;border-radius:999px;white-space:nowrap}
+/* 首页：品牌锁定在首屏居中；顶栏那份先隐起来，滚过首屏再淡入（同屏不出现两个 logo） */
+.topbar .brand{transition:opacity .35s ease}
+.topbar.hero-top .brand{opacity:0;pointer-events:none}
+.topbar.hero-top.solid .brand{opacity:1;pointer-events:auto}
 
 /* ---------- 首屏 ---------- */
-.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:56% 64%;z-index:-2;
   animation:kb 26s cubic-bezier(.18,.6,.28,1) both}
 @keyframes kb{from{transform:scale(1.07)}to{transform:scale(1)}}
 .hero-scrim{position:absolute;inset:0;z-index:-1;background:
   linear-gradient(180deg,rgba(5,11,22,.74) 0%,rgba(5,11,22,.28) 20%,rgba(5,11,22,.58) 40%,rgba(5,11,22,.89) 66%,rgba(5,11,22,.97) 86%,var(--bg) 100%)}
 .hero-inner{width:100%;max-width:720px;margin:0 auto;padding:0 var(--pad) calc(46px + 3svh)}
+/* 首屏中上方的品牌锁定：居中、无圆圈徽章，只用 logo + 大字距 + 一道金色细线。
+   用 flex 两端对齐把它顶到上面（不绝对定位），屏幕再矮也不会和底部标题撞上 */
+.hero-brand{display:flex;flex-direction:column;align-items:center;gap:13px;
+  padding:calc(76px + env(safe-area-inset-top)) var(--pad) 0}
+.hero-brand img{width:56px;height:56px;display:block;filter:drop-shadow(0 8px 20px rgba(4,9,18,.55))}
+.hero-brand .hb-name{margin:0;font-family:var(--serif);font-weight:600;font-size:13px;line-height:1;
+  letter-spacing:.36em;text-indent:.36em;color:var(--gold-lt);white-space:nowrap}
+.hero-brand .hb-rule{display:block;width:42px;height:1px;
+  background:linear-gradient(90deg,rgba(201,164,92,0) 0%,var(--gold-dim) 50%,rgba(201,164,92,0) 100%)}
+/* 矮屏(SE 等)收紧，保证品牌块与标题之间始终有呼吸，且 CTA 仍在首屏内 */
+@media (max-height:660px){
+  .hero-brand{padding-top:calc(60px + env(safe-area-inset-top));gap:10px}
+  .hero-brand img{width:42px;height:42px}
+  .hero-brand .hb-name{font-size:12px;letter-spacing:.3em;text-indent:.3em}
+  .hero h1{font-size:clamp(26px,7.8vw,38px);margin-bottom:16px}
+  .hero-sub{font-size:14px;line-height:1.72;margin-bottom:22px}
+  .hero-inner{padding-bottom:calc(34px + 2svh)}
+}
+@media (max-height:520px){
+  .hero-brand{padding-top:calc(52px + env(safe-area-inset-top));gap:8px}
+  .hero-brand img{width:36px;height:36px}
+  .hero-brand .hb-rule{display:none}
+  .hero h1{font-size:clamp(23px,7vw,32px)}
+  .hero-sub{font-size:13px;line-height:1.66;margin-bottom:18px}
+  .hero-inner{padding-bottom:26px}
+}
 .eyebrow{font-size:11.5px;letter-spacing:.34em;color:var(--gold-lt);margin:0 0 18px;text-transform:uppercase}
 .hero h1{margin:0 0 20px;font-size:clamp(30px,8.8vw,44px);line-height:1.38;letter-spacing:.02em;text-wrap:balance}
 .hero h1 span{display:block}
@@ -425,7 +455,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 <body class="">
 <div class="bg" aria-hidden="true"><div class="bg-amb"></div></div>
 <div class="bg" aria-hidden="true"><div class="bg-glow"></div><div class="bg-grid"></div><div class="bg-grain"></div></div>
-<div class="topbar" id="topbar">
+<div class="topbar hero-top" id="topbar">
   <a class="brand" href="index.html"><img src="assets/logo-mark.png" alt="乾粮集团"><b>乾粮农业集团</b></a>
   <a class="back" href="#history">发展历程</a>
 </div>
@@ -433,6 +463,11 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 <section class="hero">
   <img class="hero-img" src="assets/hero.jpg" alt="东北黑土稻田地景" fetchpriority="high">
   <div class="hero-scrim"></div>
+  <div class="hero-brand reveal">
+    <img src="assets/logo-mark.png" alt="乾粮农业集团">
+    <p class="hb-name">乾粮农业集团</p>
+    <span class="hb-rule"></span>
+  </div>
   <div class="hero-inner">
     <h1 class="serif"><span>东北黑土好米</span><span>自产地直达终端</span></h1>
     <p class="hero-sub">依托海伦富硒黑土与五常稻花香两地产区，自有基地、自有工厂、自有品牌，从种植、收储、加工到终端，把东北黑土地的好米做成一件长久的事。</p>
