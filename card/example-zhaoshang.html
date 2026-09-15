@@ -36,17 +36,27 @@ html,body{margin:0;padding:0}
 .bg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 /* 沿整页纵向铺开的柔和光斑:让每一屏都有远近层次,不是死平纯色 */
 .bg-amb{position:absolute;inset:0;background:
-  radial-gradient(58% 11% at 18% 4%, rgba(50,98,166,.34), transparent 68%),
-  radial-gradient(46% 9% at 88% 20%, rgba(201,164,92,.11), transparent 70%),
-  radial-gradient(66% 12% at 44% 40%, rgba(30,74,134,.26), transparent 72%),
-  radial-gradient(54% 10% at 82% 62%, rgba(201,164,92,.075), transparent 70%),
-  radial-gradient(70% 13% at 26% 82%, rgba(26,68,122,.30), transparent 74%),
-  radial-gradient(50% 9% at 70% 97%, rgba(201,164,92,.06), transparent 72%)}
+  radial-gradient(58% 11% at 18% 4%, rgba(50,98,166,.42), transparent 68%),
+  radial-gradient(46% 9% at 88% 20%, rgba(201,164,92,.15), transparent 70%),
+  radial-gradient(66% 12% at 44% 40%, rgba(30,74,134,.34), transparent 72%),
+  radial-gradient(54% 10% at 82% 62%, rgba(201,164,92,.10), transparent 70%),
+  radial-gradient(70% 13% at 26% 82%, rgba(26,68,122,.38), transparent 74%),
+  radial-gradient(50% 9% at 70% 97%, rgba(201,164,92,.085), transparent 72%)}
+/* 【材质层】氛围实拍/AI 底图：破"近黑纯色"的单调，只留层次不抢文字。
+   图已在 optimize_assets.py 里预模糊+压暗+往站点底色拉过，所以这里不再用 filter:blur（省 GPU）。
+   改图只需替换 assets_src/bg-texture.webp。 */
+.bg-photo{position:fixed;inset:0;pointer-events:none;opacity:.42;
+  background:url(../assets/bg-texture.webp) center 58%/cover no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 74%,rgba(0,0,0,.4) 93%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0%,#000 12%,#000 74%,rgba(0,0,0,.4) 93%,transparent 100%)}
+/* 【暗角】四角压暗才出纵深，否则整页还是平 */
+.bg-vig{position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(130% 88% at 50% 36%,transparent 32%,rgba(3,7,14,.40) 76%,rgba(3,7,14,.70) 100%)}
 .bg-grid,.bg-grain{position:fixed;inset:0}
 .bg-glow{position:fixed;inset:-22%;background:
-  radial-gradient(46% 34% at 16% 6%, rgba(48,94,160,.34), transparent 62%),
-  radial-gradient(38% 28% at 86% 18%, rgba(201,164,92,.15), transparent 66%),
-  radial-gradient(72% 46% at 52% 102%, rgba(22,58,108,.46), transparent 72%);
+  radial-gradient(46% 34% at 16% 6%, rgba(48,94,160,.40), transparent 62%),
+  radial-gradient(38% 28% at 86% 18%, rgba(201,164,92,.19), transparent 66%),
+  radial-gradient(72% 46% at 52% 102%, rgba(22,58,108,.52), transparent 72%);
   animation:drift 48s ease-in-out infinite alternate}
 .bg-grid{opacity:.85;
   background-image:linear-gradient(90deg,rgba(241,238,231,.03) 1px,transparent 1px),
@@ -100,39 +110,31 @@ picture{display:contents}
 .hero-scrim{position:absolute;inset:0;z-index:-1;background:
   linear-gradient(180deg,rgba(5,11,22,.74) 0%,rgba(5,11,22,.28) 20%,rgba(5,11,22,.58) 40%,rgba(5,11,22,.89) 66%,rgba(5,11,22,.97) 86%,var(--bg) 100%)}
 .hero-inner{width:100%;max-width:720px;margin:0 auto;padding:0 var(--pad) calc(46px + 3svh)}
-/* 首屏品牌锁定 —— 【第一屏只放 logo + 集团名，正文标题沉到第二屏，往下滑才出现】。
-   集团名拆两行：12 个字在一行里放不大，要"和东北黑土好米差不多大"只能靠两行。
-   光扫改成斜着扫：整条光带 rotate(20deg) 后沿自身轴 translateX，轨迹就是斜线。
-   入场：logo 虚焦成像 → 集团名擦除显现 → 金线从中心展开；之后每 6.5s 一道光斜扫过 logo */
-.hero-brand{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:clamp(24px,7vw,46px);min-height:101vh;min-height:101svh;
-  padding:calc(70px + env(safe-area-inset-top)) var(--pad) calc(64px + env(safe-area-inset-bottom))}
+/* 首屏品牌 —— 【第一屏只放 logo + 集团名，正文标题沉到第二屏，往下滑才出现】。
+   logo 居中偏上、集团名一行居中偏下，中间留白（比肩连排更大气）。
+   集团名单行：拆两行显琐碎，宁要一行清晰；字号按屏宽自适应。
+   入场：logo 虚焦成像 → 集团名擦除显现 → 金线从中心展开（无扫光）。 */
+.hero-brand{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  min-height:101vh;min-height:101svh;
+  padding:calc(clamp(90px,18svh,180px) + env(safe-area-inset-top)) var(--pad)
+          calc(clamp(110px,28svh,240px) + env(safe-area-inset-bottom))}
 .hb-mark{position:relative;display:block;line-height:0;
   animation:hbMark 1.25s cubic-bezier(.16,1,.3,1) both}
 .hb-mark img{width:clamp(158px,50vw,250px);height:auto;display:block;
   filter:drop-shadow(0 18px 42px rgba(4,9,18,.6))}
 @keyframes hbMark{from{opacity:0;transform:scale(.86);filter:blur(8px)}
   to{opacity:1;transform:scale(1);filter:blur(0)}}
-/* 斜向扫光：蒙版 = logo 轮廓（用单独的小尺寸蒙版文件，别拿大图当蒙版） */
-.hb-sheen{position:absolute;inset:0;pointer-events:none;overflow:hidden;
-  -webkit-mask-image:url(../assets/logo-mark-mask.png);mask-image:url(../assets/logo-mark-mask.png);
-  -webkit-mask-size:100% 100%;mask-size:100% 100%;
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-.hb-sheen::before{content:"";position:absolute;left:0;top:-90%;bottom:-90%;width:26%;
-  background:linear-gradient(90deg,rgba(255,248,226,0) 0%,rgba(255,248,226,.95) 50%,rgba(255,248,226,0) 100%);
-  transform:rotate(20deg) translateX(-300%);
-  animation:hbSheen 6.5s cubic-bezier(.45,0,.25,1) 2.4s infinite}
-@keyframes hbSheen{0%{transform:rotate(20deg) translateX(-300%)}38%,100%{transform:rotate(20deg) translateX(560%)}}
-/* 集团名 + 金线的内部小间距（和 logo 之间那个大间距由 .hero-brand 的 gap 给） */
-.hb-lock{display:flex;flex-direction:column;align-items:center;gap:clamp(15px,3.4vw,24px)}
-/* 集团名两行；字号按屏宽自动收缩（可用宽 = 100vw - 44px，按最长那行 7 字算），
-   390 屏上约 41px —— 比下面「东北黑土好米」的 34px 还大 */
+/* 集团名 + 金线的内部小间距 */
+.hb-lock{display:flex;flex-direction:column;align-items:center;gap:clamp(14px,3.4vw,22px)}
+/* 集团名一行；字号按屏宽自动收缩。
+   ⚠️ 「黑龙江乾粮农业集团有限公司」是 **13 个字**（不是 12），每字 1em + 字距 .1em
+   → 一行总宽 ≈ 14.3 × 字号，所以除数必须 ≥ 14.3；取 15 留安全余量。
+   除数写小了会正好卡在可用宽度上导致换行（踩过）。改名字要先数字数。 */
 .hb-name{margin:0;font-family:var(--serif);font-weight:600;
-  font-size:clamp(17px,calc((100vw - 46px)/8.4),44px);line-height:1.26;
-  letter-spacing:.1em;color:var(--gold-lt);
+  font-size:clamp(15px,calc((100vw - 46px)/15),24px);line-height:1.4;
+  letter-spacing:.08em;white-space:nowrap;color:var(--gold-lt);
   text-shadow:0 3px 22px rgba(4,9,18,.72);
   animation:hbName 1.2s cubic-bezier(.16,1,.3,1) .3s both}
-.hb-name span{display:block;text-indent:.1em}
 @keyframes hbName{from{opacity:0;clip-path:inset(0 100% 0 0);transform:translateY(11px)}
   to{opacity:1;clip-path:inset(0 -4% 0 0);transform:none}}
 .hb-rule{display:block;height:1px;width:clamp(96px,34vw,150px);
@@ -458,25 +460,24 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 @keyframes heroIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
 /* ---------- 矮屏(SE 等)收紧 ----------
-   ⚠️ 这两档必须放在样式表【最后】：放前面会被后定义的基础规则覆盖掉（这个坑踩过一次）。
-   矮屏档的集团名字号也刻意保持在同档 H1 之上 —— 要求就是"名字不能比标题小"。 */
+   ⚠️ 这两档必须放在样式表【最后】：放前面会被后定义的基础规则覆盖掉（这个坑踩过一次）。 */
 @media (max-height:660px){
-  .hero-brand{gap:clamp(22px,5.4vw,30px);min-height:101vh;min-height:101svh;
-    padding:calc(58px + env(safe-area-inset-top)) var(--pad) calc(46px + env(safe-area-inset-bottom))}
+  .hero-brand{padding:calc(clamp(64px,15svh,110px) + env(safe-area-inset-top)) var(--pad)
+          calc(clamp(80px,24svh,150px) + env(safe-area-inset-bottom))}
   .hb-mark img{width:clamp(120px,38vw,160px)}
-  .hb-name{font-size:clamp(20px,calc((100vw - 46px)/9.4),30px)}
-  .hb-lock{gap:13px}
+  .hb-name{font-size:clamp(15px,calc((100vw - 46px)/15),22px)}
+  .hb-lock{gap:12px}
   .hb-rule{width:84px}
   .hero h1{font-size:clamp(26px,7.8vw,38px);margin-bottom:16px}
   .hero-sub{font-size:14px;line-height:1.72;margin-bottom:22px}
   .hero-inner{padding-bottom:calc(34px + 2svh)}
 }
 @media (max-height:520px){
-  .hero-brand{gap:20px;min-height:101vh;min-height:101svh;
-    padding:calc(48px + env(safe-area-inset-top)) var(--pad) calc(38px + env(safe-area-inset-bottom))}
+  .hero-brand{padding:calc(clamp(50px,13svh,80px) + env(safe-area-inset-top)) var(--pad)
+          calc(clamp(60px,20svh,110px) + env(safe-area-inset-bottom))}
   .hb-mark img{width:96px}
-  .hb-name{font-size:clamp(17px,calc((100vw - 46px)/10.4),24px)}
-  .hb-lock{gap:10px}
+  .hb-name{font-size:clamp(13px,calc((100vw - 46px)/15.5),19px)}
+  .hb-lock{gap:9px}
   .hb-rule{display:none}
   .hb-cue{display:none}
   .hero h1{font-size:clamp(23px,7vw,32px);margin-bottom:14px}
@@ -495,14 +496,14 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
   .reveal{opacity:1;transform:none;transition:none}
   .hero-img{animation:none}
   .hero-inner>*{animation:none}
-  .hb-mark,.hb-name,.hb-rule,.hb-sheen::before,.hb-cue{animation:none}
+  .hb-mark,.hb-name,.hb-rule,.hb-cue{animation:none}
   html{scroll-behavior:auto}
 }
 </style>
 </head>
 <body class="">
 <div class="bg" aria-hidden="true"><div class="bg-amb"></div></div>
-<div class="bg" aria-hidden="true"><div class="bg-glow"></div><div class="bg-grid"></div><div class="bg-grain"></div></div>
+<div class="bg" aria-hidden="true"><div class="bg-glow"></div><div class="bg-photo"></div><div class="bg-vig"></div><div class="bg-grid"></div><div class="bg-grain"></div></div>
 <div class="topbar" id="topbar">
   <a class="brand" href="../index.html"><img src="../assets/logo-mark.webp" alt="乾粮集团"><b>乾粮农业集团</b></a>
   <a class="back" href="../team.html">&#8249; 全部名片</a>
