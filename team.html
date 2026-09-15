@@ -100,10 +100,10 @@ img{max-width:100%}
 .hero-inner{width:100%;max-width:720px;margin:0 auto;padding:0 var(--pad) calc(46px + 3svh)}
 /* 首屏中上方的品牌锁定 —— 居中、无圆圈徽章；大 logo + 开字距 + 一道金色细线。
    flex 两端对齐顶到上面（不绝对定位），屏幕再矮也不会和底部标题撞上。
-   入场顺序：logo 从虚焦成像 → 字距从 .74em 收到 .3em 拉开 → 细线从中心展开；
+   入场顺序：logo 从虚焦成像 → 集团名从左到右擦除显现 → 细线从中心展开；
    之后一道光每 7.5s 缓慢扫过 logo 轮廓（蒙版裁成 logo 形状，只动 transform） */
 .hero-brand{display:flex;flex-direction:column;align-items:center;gap:16px;
-  padding:calc(74px + env(safe-area-inset-top)) var(--pad) 0}
+  padding:calc(44px + env(safe-area-inset-top)) var(--pad) 0}
 .hb-mark{position:relative;display:block;line-height:0;
   animation:hbMark 1.25s cubic-bezier(.16,1,.3,1) both}
 .hb-mark img{width:clamp(104px,34vw,148px);height:auto;display:block;
@@ -118,31 +118,34 @@ img{max-width:100%}
   background:linear-gradient(100deg,rgba(255,248,226,0) 0%,rgba(255,248,226,.9) 50%,rgba(255,248,226,0) 100%);
   transform:translateX(-170%);animation:hbSheen 7.5s cubic-bezier(.45,0,.25,1) 2.2s infinite}
 @keyframes hbSheen{0%{transform:translateX(-170%)}32%,100%{transform:translateX(400%)}}
+/* 集团全名 12 个字：字号按屏宽自动收缩（可用宽 = 100vw - 44px），保证任何机型都不撑破、不闪横向滚动条 */
 .hb-name{margin:0;font-family:var(--serif);font-weight:600;
-  font-size:clamp(22px,6.6vw,27px);line-height:1.1;
-  letter-spacing:.3em;text-indent:.3em;color:var(--gold-lt);white-space:nowrap;
+  font-size:clamp(13px,calc((100vw - 46px)/15.6),22px);line-height:1.12;
+  letter-spacing:.16em;text-indent:.16em;color:var(--gold-lt);white-space:nowrap;
   text-shadow:0 2px 16px rgba(4,9,18,.66);
-  animation:hbName 1.15s cubic-bezier(.16,1,.3,1) .3s both}
-@keyframes hbName{from{opacity:0;letter-spacing:.74em;text-indent:.74em;transform:translateY(10px)}
-  to{opacity:1;letter-spacing:.3em;text-indent:.3em;transform:none}}
+  animation:hbName 1.2s cubic-bezier(.16,1,.3,1) .3s both}
+@keyframes hbName{from{opacity:0;letter-spacing:.2em;text-indent:.2em;
+  clip-path:inset(0 100% 0 0);transform:translateY(9px)}
+  to{opacity:1;letter-spacing:.16em;text-indent:.16em;
+    clip-path:inset(0 -3% 0 0);transform:none}}
 .hb-rule{display:block;height:1px;width:clamp(76px,26vw,110px);
   background:linear-gradient(90deg,rgba(201,164,92,0) 0%,var(--gold-dim) 50%,rgba(201,164,92,0) 100%);
   animation:hbRule 1s cubic-bezier(.16,1,.3,1) .55s both}
 @keyframes hbRule{from{opacity:0;transform:scaleX(0)}to{opacity:.95;transform:scaleX(1)}}
 /* 矮屏(SE 等)收紧，保证品牌块与标题之间始终有呼吸，且 CTA 仍在首屏内 */
 @media (max-height:660px){
-  .hero-brand{padding-top:calc(60px + env(safe-area-inset-top));gap:13px}
+  .hero-brand{padding-top:calc(38px + env(safe-area-inset-top));gap:13px}
   .hb-mark img{width:68px}
-  .hb-name{font-size:18px}
+  .hb-name{font-size:16px}
   .hb-rule{width:68px}
   .hero h1{font-size:clamp(26px,7.8vw,38px);margin-bottom:16px}
   .hero-sub{font-size:14px;line-height:1.72;margin-bottom:22px}
   .hero-inner{padding-bottom:calc(34px + 2svh)}
 }
 @media (max-height:520px){
-  .hero-brand{padding-top:calc(50px + env(safe-area-inset-top));gap:9px}
+  .hero-brand{padding-top:calc(32px + env(safe-area-inset-top));gap:9px}
   .hb-mark img{width:46px}
-  .hb-name{font-size:14px}
+  .hb-name{font-size:13px}
   .hb-rule{display:none}
   .hero h1{font-size:clamp(23px,7vw,32px);margin-bottom:14px}
   .hero-sub{font-size:12.5px;line-height:1.6;margin-bottom:14px}
@@ -535,10 +538,14 @@ function initReveal(){
     for(var i=0;i<es.length;i++){if(es[i].isIntersecting){es[i].target.classList.add('in');io.unobserve(es[i].target)}}
   },{rootMargin:'0px 0px -8% 0px',threshold:.08});
   for(var i=0;i<els.length;i++)io.observe(els[i]);
-  var bar=$('#topbar'),sent=$('#sentinel');
-  if(bar&&sent){
-    var io2=new IntersectionObserver(function(es){bar.classList.toggle('solid',!es[0].isIntersecting)},{threshold:0});
-    io2.observe(sent);
+  // 顶栏何时变实底：有首屏大品牌时，等首屏几乎滚完才变 ——
+  // 否则顶栏小 logo 和首屏大 logo 会同时出现在屏幕上互相打架
+  var bar=$('#topbar'),hero=document.querySelector('.hero'),sent=$('#sentinel');
+  var watch=hero||sent;
+  if(bar&&watch){
+    var io2=new IntersectionObserver(function(es){bar.classList.toggle('solid',!es[0].isIntersecting)},
+      hero?{threshold:0,rootMargin:'-64px 0px 0px 0px'}:{threshold:0});
+    io2.observe(watch);
   }
 }
 function initTiers(){
