@@ -93,66 +93,57 @@ picture{display:contents}
 .topbar.hero-top.solid .brand{opacity:1;pointer-events:auto}
 
 /* ---------- 首屏 ---------- */
-.hero{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate}
+.hero{position:relative;min-height:100vh;min-height:100svh;padding:0;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;isolation:isolate}
 .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:56% 64%;z-index:-2;
   animation:kb 26s cubic-bezier(.18,.6,.28,1) both}
 @keyframes kb{from{transform:scale(1.07)}to{transform:scale(1)}}
 .hero-scrim{position:absolute;inset:0;z-index:-1;background:
   linear-gradient(180deg,rgba(5,11,22,.74) 0%,rgba(5,11,22,.28) 20%,rgba(5,11,22,.58) 40%,rgba(5,11,22,.89) 66%,rgba(5,11,22,.97) 86%,var(--bg) 100%)}
 .hero-inner{width:100%;max-width:720px;margin:0 auto;padding:0 var(--pad) calc(46px + 3svh)}
-/* 首屏中上方的品牌锁定 —— 居中、无圆圈徽章；大 logo + 开字距 + 一道金色细线。
-   flex 两端对齐顶到上面（不绝对定位），屏幕再矮也不会和底部标题撞上。
-   入场顺序：logo 从虚焦成像 → 集团名从左到右擦除显现 → 细线从中心展开；
-   之后一道光每 7.5s 缓慢扫过 logo 轮廓（蒙版裁成 logo 形状，只动 transform） */
-.hero-brand{display:flex;flex-direction:column;align-items:center;gap:16px;
-  padding:calc(44px + env(safe-area-inset-top)) var(--pad) 0}
+/* 首屏品牌锁定 —— 【第一屏只放 logo + 集团名，正文标题沉到第二屏，往下滑才出现】。
+   集团名拆两行：12 个字在一行里放不大，要"和东北黑土好米差不多大"只能靠两行。
+   光扫改成斜着扫：整条光带 rotate(20deg) 后沿自身轴 translateX，轨迹就是斜线。
+   入场：logo 虚焦成像 → 集团名擦除显现 → 金线从中心展开；之后每 6.5s 一道光斜扫过 logo */
+.hero-brand{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(24px,7vw,46px);min-height:101vh;min-height:101svh;
+  padding:calc(70px + env(safe-area-inset-top)) var(--pad) calc(64px + env(safe-area-inset-bottom))}
 .hb-mark{position:relative;display:block;line-height:0;
   animation:hbMark 1.25s cubic-bezier(.16,1,.3,1) both}
-.hb-mark img{width:clamp(104px,34vw,148px);height:auto;display:block;
-  filter:drop-shadow(0 14px 34px rgba(4,9,18,.58))}
-@keyframes hbMark{from{opacity:0;transform:scale(.84);filter:blur(7px)}
+.hb-mark img{width:clamp(158px,50vw,250px);height:auto;display:block;
+  filter:drop-shadow(0 18px 42px rgba(4,9,18,.6))}
+@keyframes hbMark{from{opacity:0;transform:scale(.86);filter:blur(8px)}
   to{opacity:1;transform:scale(1);filter:blur(0)}}
+/* 斜向扫光：蒙版 = logo 轮廓（用单独的小尺寸蒙版文件，别拿大图当蒙版） */
 .hb-sheen{position:absolute;inset:0;pointer-events:none;overflow:hidden;
-  -webkit-mask-image:url(assets/logo-mark.png);mask-image:url(assets/logo-mark.png);
+  -webkit-mask-image:url(assets/logo-mark-mask.png);mask-image:url(assets/logo-mark-mask.png);
   -webkit-mask-size:100% 100%;mask-size:100% 100%;
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-.hb-sheen::before{content:"";position:absolute;top:-25%;bottom:-25%;left:0;width:34%;
-  background:linear-gradient(100deg,rgba(255,248,226,0) 0%,rgba(255,248,226,.9) 50%,rgba(255,248,226,0) 100%);
-  transform:translateX(-170%);animation:hbSheen 7.5s cubic-bezier(.45,0,.25,1) 2.2s infinite}
-@keyframes hbSheen{0%{transform:translateX(-170%)}32%,100%{transform:translateX(400%)}}
-/* 集团全名 12 个字：字号按屏宽自动收缩（可用宽 = 100vw - 44px），保证任何机型都不撑破、不闪横向滚动条 */
+.hb-sheen::before{content:"";position:absolute;left:0;top:-90%;bottom:-90%;width:26%;
+  background:linear-gradient(90deg,rgba(255,248,226,0) 0%,rgba(255,248,226,.95) 50%,rgba(255,248,226,0) 100%);
+  transform:rotate(20deg) translateX(-300%);
+  animation:hbSheen 6.5s cubic-bezier(.45,0,.25,1) 2.4s infinite}
+@keyframes hbSheen{0%{transform:rotate(20deg) translateX(-300%)}38%,100%{transform:rotate(20deg) translateX(560%)}}
+/* 集团名 + 金线的内部小间距（和 logo 之间那个大间距由 .hero-brand 的 gap 给） */
+.hb-lock{display:flex;flex-direction:column;align-items:center;gap:clamp(15px,3.4vw,24px)}
+/* 集团名两行；字号按屏宽自动收缩（可用宽 = 100vw - 44px，按最长那行 7 字算），
+   390 屏上约 41px —— 比下面「东北黑土好米」的 34px 还大 */
 .hb-name{margin:0;font-family:var(--serif);font-weight:600;
-  font-size:clamp(13px,calc((100vw - 46px)/15.6),22px);line-height:1.12;
-  letter-spacing:.16em;text-indent:.16em;color:var(--gold-lt);white-space:nowrap;
-  text-shadow:0 2px 16px rgba(4,9,18,.66);
+  font-size:clamp(17px,calc((100vw - 46px)/8.4),44px);line-height:1.26;
+  letter-spacing:.1em;color:var(--gold-lt);
+  text-shadow:0 3px 22px rgba(4,9,18,.72);
   animation:hbName 1.2s cubic-bezier(.16,1,.3,1) .3s both}
-@keyframes hbName{from{opacity:0;letter-spacing:.2em;text-indent:.2em;
-  clip-path:inset(0 100% 0 0);transform:translateY(9px)}
-  to{opacity:1;letter-spacing:.16em;text-indent:.16em;
-    clip-path:inset(0 -3% 0 0);transform:none}}
-.hb-rule{display:block;height:1px;width:clamp(76px,26vw,110px);
+.hb-name span{display:block;text-indent:.1em}
+@keyframes hbName{from{opacity:0;clip-path:inset(0 100% 0 0);transform:translateY(11px)}
+  to{opacity:1;clip-path:inset(0 -4% 0 0);transform:none}}
+.hb-rule{display:block;height:1px;width:clamp(96px,34vw,150px);
   background:linear-gradient(90deg,rgba(201,164,92,0) 0%,var(--gold-dim) 50%,rgba(201,164,92,0) 100%);
   animation:hbRule 1s cubic-bezier(.16,1,.3,1) .55s both}
 @keyframes hbRule{from{opacity:0;transform:scaleX(0)}to{opacity:.95;transform:scaleX(1)}}
-/* 矮屏(SE 等)收紧，保证品牌块与标题之间始终有呼吸，且 CTA 仍在首屏内 */
-@media (max-height:660px){
-  .hero-brand{padding-top:calc(38px + env(safe-area-inset-top));gap:13px}
-  .hb-mark img{width:68px}
-  .hb-name{font-size:16px}
-  .hb-rule{width:68px}
-  .hero h1{font-size:clamp(26px,7.8vw,38px);margin-bottom:16px}
-  .hero-sub{font-size:14px;line-height:1.72;margin-bottom:22px}
-  .hero-inner{padding-bottom:calc(34px + 2svh)}
-}
-@media (max-height:520px){
-  .hero-brand{padding-top:calc(32px + env(safe-area-inset-top));gap:9px}
-  .hb-mark img{width:46px}
-  .hb-name{font-size:13px}
-  .hb-rule{display:none}
-  .hero h1{font-size:clamp(23px,7vw,32px);margin-bottom:14px}
-  .hero-sub{font-size:12.5px;line-height:1.6;margin-bottom:14px}
-  .hero-inner{padding-bottom:14px}
-}
+/* 下滑提示：一道极淡的金线轻轻呼吸。第一屏只有品牌，需要一点"下面还有"的暗示 */
+.hb-cue{position:absolute;bottom:calc(22px + env(safe-area-inset-bottom));left:50%;width:1px;height:40px;
+  margin-left:-.5px;background:linear-gradient(180deg,rgba(201,169,97,0),var(--gold-dim));
+  animation:hbCue 2.6s ease-in-out 1.6s infinite}
+@keyframes hbCue{0%,100%{opacity:.22;transform:translateY(-7px)}50%{opacity:.85;transform:translateY(7px)}}
 .eyebrow{font-size:11.5px;letter-spacing:.34em;color:var(--gold-lt);margin:0 0 18px;text-transform:uppercase}
 .hero h1{margin:0 0 20px;font-size:clamp(30px,8.8vw,44px);line-height:1.38;letter-spacing:.02em;text-wrap:balance}
 .hero h1 span{display:block}
@@ -466,6 +457,33 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 .hero-inner>*:nth-child(4){animation-delay:.4s}
 @keyframes heroIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 
+/* ---------- 矮屏(SE 等)收紧 ----------
+   ⚠️ 这两档必须放在样式表【最后】：放前面会被后定义的基础规则覆盖掉（这个坑踩过一次）。
+   矮屏档的集团名字号也刻意保持在同档 H1 之上 —— 要求就是"名字不能比标题小"。 */
+@media (max-height:660px){
+  .hero-brand{gap:clamp(22px,5.4vw,30px);min-height:101vh;min-height:101svh;
+    padding:calc(58px + env(safe-area-inset-top)) var(--pad) calc(46px + env(safe-area-inset-bottom))}
+  .hb-mark img{width:clamp(120px,38vw,160px)}
+  .hb-name{font-size:clamp(20px,calc((100vw - 46px)/9.4),30px)}
+  .hb-lock{gap:13px}
+  .hb-rule{width:84px}
+  .hero h1{font-size:clamp(26px,7.8vw,38px);margin-bottom:16px}
+  .hero-sub{font-size:14px;line-height:1.72;margin-bottom:22px}
+  .hero-inner{padding-bottom:calc(34px + 2svh)}
+}
+@media (max-height:520px){
+  .hero-brand{gap:20px;min-height:101vh;min-height:101svh;
+    padding:calc(48px + env(safe-area-inset-top)) var(--pad) calc(38px + env(safe-area-inset-bottom))}
+  .hb-mark img{width:96px}
+  .hb-name{font-size:clamp(17px,calc((100vw - 46px)/10.4),24px)}
+  .hb-lock{gap:10px}
+  .hb-rule{display:none}
+  .hb-cue{display:none}
+  .hero h1{font-size:clamp(23px,7vw,32px);margin-bottom:14px}
+  .hero-sub{font-size:12.5px;line-height:1.6;margin-bottom:14px}
+  .hero-inner{padding-bottom:14px}
+}
+
 @media (min-width:560px){
   .nums{grid-template-columns:repeat(4,1fr)}
   .caps{grid-template-columns:1fr 1fr}
@@ -477,7 +495,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
   .reveal{opacity:1;transform:none;transition:none}
   .hero-img{animation:none}
   .hero-inner>*{animation:none}
-  .hb-mark,.hb-name,.hb-rule,.hb-sheen::before{animation:none}
+  .hb-mark,.hb-name,.hb-rule,.hb-sheen::before,.hb-cue{animation:none}
   html{scroll-behavior:auto}
 }
 </style>
@@ -486,7 +504,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 <div class="bg" aria-hidden="true"><div class="bg-amb"></div></div>
 <div class="bg" aria-hidden="true"><div class="bg-glow"></div><div class="bg-grid"></div><div class="bg-grain"></div></div>
 <div class="topbar" id="topbar">
-  <a class="brand" href="index.html"><img src="assets/logo-mark.png" alt="乾粮集团"><b>乾粮农业集团</b></a>
+  <a class="brand" href="index.html"><img src="assets/logo-mark.webp" alt="乾粮集团"><b>乾粮农业集团</b></a>
   <a class="back" href="index.html" onclick="if(history.length&gt;1){history.back();return false}">返回上一页</a>
 </div>
 <main class="wrap">
