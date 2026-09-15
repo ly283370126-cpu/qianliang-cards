@@ -9,7 +9,7 @@
 <meta property="og:title" content="（示例）董事长 / 总经理 · 集团负责人 · 乾粮农业集团">
 <meta property="og:description" content="乾粮农业集团 · 集团负责人。点击查看联系方式与企业简介。">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://card.liyanzhixiangshuijiao.cn/assets/share.png">
+<meta property="og:image" content="https://card.liyanzhixiangshuijiao.cn/assets/share.jpg">
 <link rel="icon" href="../assets/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 
@@ -71,6 +71,8 @@ img{max-width:100%}
 .hero,.band,main,footer,.topbar{position:relative;z-index:1}
 .topbar{z-index:30}
 .wrap{max-width:720px;margin:0 auto;padding:0 var(--pad)}
+/* picture 默认是 inline 盒，会挡住 img 的定位/尺寸规则 —— 用 display:contents 让它"消失" */
+picture{display:contents}
 
 /* ---------- 顶栏(压在首图上,滚过首屏后变实底) ---------- */
 .topbar{
