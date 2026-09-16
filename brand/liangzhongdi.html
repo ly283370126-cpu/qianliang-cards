@@ -400,27 +400,39 @@ p{margin:0 0 15px}
 .blist span{font-size:12px;color:var(--paper-dim)}
 
 /* ---------- 品牌详情页 ---------- */
-.bdhead{padding:calc(28px + env(safe-area-inset-top)) var(--pad) 60px}
+/* 顶栏 fixed（约 83px），正文顶部要留够。
+   （曾以为是背景层 z-index 盖住了文字，实测否定了：文字最亮像素 238/241＝全亮。
+    用户觉得"暗"的真因是**字重太细** —— 细笔画压在暗底上视觉发虚，所以正文统一 font-weight:500 + 15px。
+    position/z-index 仍保留，与站内其它容器一致，纯属正确性。） */
+.bdhead{position:relative;z-index:1;
+  padding:calc(96px + env(safe-area-inset-top)) var(--pad) 60px}
 .bdshot{margin:0 0 20px;border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:var(--paper)}
 .bdshot img{width:100%;display:block;object-fit:contain;padding:8%}
-.bdline{font-size:11.5px;letter-spacing:.28em;color:var(--gold);margin:0 0 10px}
+.bdline{font-size:11.5px;letter-spacing:.28em;color:var(--gold-lt);margin:0 0 10px}
 .bdname{font-family:var(--serif);font-weight:600;font-size:30px;letter-spacing:.14em;margin:0 0 10px;line-height:1.25}
-.bdsub{font-size:12.5px;color:var(--paper-dim);margin:0 0 18px;letter-spacing:.03em;line-height:1.7}
-.bdlead{font-size:14.5px;line-height:1.85;color:var(--paper);margin:0}
+/* 详情页正文：全白 --paper(#F1EEE7) + font-weight:500 + 15px。
+   实测文字本来就是全亮（最亮 238/241），"看着暗"来自细笔画压在暗底上 —— 所以靠加字重解决 */
+.bdsub{font-size:14px;font-weight:500;color:var(--paper);margin:0 0 18px;letter-spacing:.03em;line-height:1.8;
+  text-shadow:0 1px 3px rgba(3,7,14,.55)}
+.bdlead{font-size:15.5px;font-weight:500;line-height:1.95;color:var(--paper);margin:0;
+  text-shadow:0 1px 3px rgba(3,7,14,.55)}
 .bdsec{margin:32px 0 0}
-.bdsec h2{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.14em;margin:0 0 14px;
+.bdsec h2{font-family:var(--serif);font-weight:600;font-size:17.5px;letter-spacing:.14em;margin:0 0 14px;
   padding-bottom:11px;border-bottom:1px solid var(--line2)}
 .tline{list-style:none;margin:0;padding:0}
-.tline li{display:grid;grid-template-columns:54px 1fr;gap:12px;padding:11px 0;
-  border-bottom:1px solid rgba(241,238,231,.06)}
-.tline li b{font-size:12.5px;color:var(--gold-lt);letter-spacing:.06em;padding-top:3px}
-.tline li span{font-size:13.5px;line-height:1.78;color:var(--paper-dim)}
-.bdfacts{margin:0;display:grid;grid-template-columns:72px 1fr;gap:10px 12px}
-.bdfacts dt{font-size:11.5px;letter-spacing:.14em;color:var(--gold);margin:0}
-.bdfacts dd{margin:0;font-size:13.5px;color:var(--paper-dim);line-height:1.72}
-.bdtodo{border:1px dashed var(--line);border-radius:12px;padding:13px 15px;margin:0}
-.bdtodo p{margin:0;font-size:12.5px;color:var(--paper-faint);line-height:1.9}
-.bdtodo p.h{letter-spacing:.08em;color:var(--paper-dim);margin-bottom:6px}
+.tline li{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px 0;
+  border-bottom:1px solid rgba(241,238,231,.08)}
+.tline li b{font-size:13.5px;font-weight:600;color:var(--gold-lt);letter-spacing:.06em;padding-top:3px}
+.tline li span{font-size:15px;font-weight:500;line-height:1.82;color:var(--paper);
+  text-shadow:0 1px 3px rgba(3,7,14,.55)}
+.bdfacts{margin:0;display:grid;grid-template-columns:76px 1fr;gap:11px 12px}
+.bdfacts dt{font-size:12.5px;font-weight:600;letter-spacing:.14em;color:var(--gold-lt);margin:0}
+.bdfacts dd{margin:0;font-size:15px;font-weight:500;color:var(--paper);line-height:1.78;
+  text-shadow:0 1px 3px rgba(3,7,14,.55)}
+.bdtodo{border:1px dashed var(--line);border-radius:12px;padding:14px 16px;margin:0;
+  background:rgba(241,238,231,.04)}
+.bdtodo p{margin:0;font-size:14px;font-weight:500;color:rgba(241,238,231,.9);line-height:1.95}
+.bdtodo p.h{letter-spacing:.08em;color:var(--gold-lt);margin-bottom:6px}
 .bdcta{display:flex;gap:11px;margin:32px 0 0}
 .bdcta .btn{flex:1}
 
@@ -550,6 +562,11 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 <body class="">
 <div class="bg" aria-hidden="true"><div class="bg-amb"></div></div>
 <div class="bg" aria-hidden="true"><div class="bg-glow"></div><div class="bg-photo"></div><div class="bg-vig"></div><div class="bg-grid"></div><div class="bg-grain"></div></div>
+<div class="topbar" id="topbar">
+  <a class="brand" href="../index.html"><img src="../assets/logo-mark.webp" alt="乾粮集团"><b>乾粮农业集团</b></a>
+  <a class="back" href="../index.html#brands">&#8249; 品牌矩阵</a>
+</div>
+<div id="sentinel" style="position:absolute;top:0;left:0;width:1px;height:1px"></div>
 <div class="bdhead">
 <figure class="bdshot"><img src="../assets/brands/liangzhongdi.webp" alt="粮中帝包装"></figure>
 <p class="bdline">双核心品牌</p>
