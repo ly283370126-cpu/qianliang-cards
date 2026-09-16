@@ -372,6 +372,58 @@ p{margin:0 0 15px}
 .bdetail .info dd{margin:0;font-size:13.5px;color:var(--paper-dim);line-height:1.7}
 .bdetail .hint{font-size:11.5px;color:var(--paper-faint);margin:14px 0 0;letter-spacing:.04em}
 
+/* ---------- 品牌矩阵：4 款主推卡（点图片进独立详情页） ---------- */
+.bhead{font-family:var(--serif);font-size:13px;letter-spacing:.3em;color:var(--gold);margin:26px 0 14px}
+.bsub{font-size:11.5px;color:var(--paper-faint);letter-spacing:.06em;margin:13px 0 0;text-align:center}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.fcard{display:block;border:1px solid var(--line2);border-radius:14px;overflow:hidden;text-decoration:none;
+  background:linear-gradient(180deg,rgba(241,238,231,.05),rgba(241,238,231,.015));
+  transition:border-color .25s ease,transform .25s ease}
+.fcard:active{transform:translateY(1px)}
+.fcard:hover{border-color:var(--gold-dim)}
+.fshot{display:flex;align-items:center;justify-content:center;position:relative;aspect-ratio:4/3;
+  overflow:hidden;background:var(--paper)}
+.fshot img{width:100%;height:100%;object-fit:contain;padding:7%;display:block}
+.fshot.photo img{object-fit:cover;padding:0}
+.fshot .fbadge{position:absolute;left:9px;top:9px;font-size:10.5px;letter-spacing:.1em;color:#3a2c12;
+  background:linear-gradient(180deg,#f0dfa8,#c9a45c);padding:3px 8px;border-radius:999px}
+.fcap{display:block;padding:12px 13px 14px}
+.fcap b{display:block;font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.1em}
+.fcap em{font-style:normal;display:block;font-size:11.5px;color:rgba(241,238,231,.68);margin-top:5px;
+  letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcap i{font-style:normal;display:block;margin-top:11px;font-size:12px;letter-spacing:.14em;color:var(--gold-lt)}
+.fcap i::after{content:" →"}
+.blist{list-style:none;margin:0 0 4px;padding:0;border-top:1px solid var(--line2)}
+.blist li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:13px 0;
+  border-bottom:1px solid var(--line2)}
+.blist b{font-family:var(--serif);font-weight:600;font-size:14.5px;letter-spacing:.08em}
+.blist span{font-size:12px;color:var(--paper-dim)}
+
+/* ---------- 品牌详情页 ---------- */
+.bdhead{padding:calc(28px + env(safe-area-inset-top)) var(--pad) 60px}
+.bdshot{margin:0 0 20px;border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:var(--paper)}
+.bdshot img{width:100%;display:block;object-fit:contain;padding:8%}
+.bdline{font-size:11.5px;letter-spacing:.28em;color:var(--gold);margin:0 0 10px}
+.bdname{font-family:var(--serif);font-weight:600;font-size:30px;letter-spacing:.14em;margin:0 0 10px;line-height:1.25}
+.bdsub{font-size:12.5px;color:var(--paper-dim);margin:0 0 18px;letter-spacing:.03em;line-height:1.7}
+.bdlead{font-size:14.5px;line-height:1.85;color:var(--paper);margin:0}
+.bdsec{margin:32px 0 0}
+.bdsec h2{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.14em;margin:0 0 14px;
+  padding-bottom:11px;border-bottom:1px solid var(--line2)}
+.tline{list-style:none;margin:0;padding:0}
+.tline li{display:grid;grid-template-columns:54px 1fr;gap:12px;padding:11px 0;
+  border-bottom:1px solid rgba(241,238,231,.06)}
+.tline li b{font-size:12.5px;color:var(--gold-lt);letter-spacing:.06em;padding-top:3px}
+.tline li span{font-size:13.5px;line-height:1.78;color:var(--paper-dim)}
+.bdfacts{margin:0;display:grid;grid-template-columns:72px 1fr;gap:10px 12px}
+.bdfacts dt{font-size:11.5px;letter-spacing:.14em;color:var(--gold);margin:0}
+.bdfacts dd{margin:0;font-size:13.5px;color:var(--paper-dim);line-height:1.72}
+.bdtodo{border:1px dashed var(--line);border-radius:12px;padding:13px 15px;margin:0}
+.bdtodo p{margin:0;font-size:12.5px;color:var(--paper-faint);line-height:1.9}
+.bdtodo p.h{letter-spacing:.08em;color:var(--paper-dim);margin-bottom:6px}
+.bdcta{display:flex;gap:11px;margin:32px 0 0}
+.bdcta .btn{flex:1}
+
 /* 品牌分组 */
 .bgroup{margin:22px 0 0}
 .bgroup:first-of-type{margin-top:0}
@@ -562,7 +614,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 <main class="wrap">
   <section>
     <h2 class="serif reveal" id="brands">六大品牌矩阵</h2>
-    <p class="bnote reveal">五常川江 · 五常稻花香产区　｜　海伦金利 · 寒地黑土硒都</p><div class="bgrid reveal"><button class="bcard on" data-brand="0" aria-label="粮中帝"><span class="shot"><img src="assets/brands/liangzhongdi.webp" alt="粮中帝包装" loading="lazy"></span><span class="cap"><b>粮中帝</b><em>五常川江 · 稻花香</em></span></button><button class="bcard" data-brand="1" aria-label="北荒田"><span class="shot photo"><img src="assets/brands/beihuangtian.webp" alt="北荒田包装" loading="lazy"></span><span class="cap"><b>北荒田</b><em>五常川江 · 稻花香</em></span></button><button class="bcard" data-brand="2" aria-label="龙粮张府"><span class="shot"><img src="assets/brands/longliangzhangfu.webp" alt="龙粮张府包装" loading="lazy"></span><span class="cap"><b>龙粮张府</b><em>五常川江 · 稻花香</em></span></button><button class="bcard" data-brand="3" aria-label="通乡河"><span class="shot"><img src="assets/brands/tongxianghe.webp" alt="通乡河包装" loading="lazy"></span><span class="cap"><b>通乡河</b><em>海伦金利 · 珍珠米</em></span></button><button class="bcard" data-brand="4" aria-label="秋稻夫"><span class="shot"><img src="assets/brands/qiudaofu.webp" alt="秋稻夫包装" loading="lazy"></span><span class="cap"><b>秋稻夫</b><em>海伦金利 · 稻香米 2 号</em></span></button><button class="bcard" data-brand="5" aria-label="老荒田"><span class="shot"><img src="assets/brands/laohuangtian.webp" alt="老荒田包装" loading="lazy"></span><span class="cap"><b>老荒田</b><em>海伦金利 · 生态稻香米</em></span></button></div><div class="reveal"><div class="bdetail on" data-bpanel="0"><div class="big"><img src="assets/brands/liangzhongdi.webp" alt="粮中帝包装" loading="lazy"></div><div class="info"><b>粮中帝</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香产区</dd><dt>产品线</dt><dd>五常大米 · 稻花香</dd><dt>资质</dt><dd>双核心品牌</dd></dl></div></div><div class="bdetail" data-bpanel="1"><div class="big photo"><img src="assets/brands/beihuangtian.webp" alt="北荒田包装" loading="lazy"></div><div class="info"><b>北荒田</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香产区</dd><dt>产品线</dt><dd>五常大米 · 稻花香</dd><dt>资质</dt><dd>双核心品牌</dd></dl></div></div><div class="bdetail" data-bpanel="2"><div class="big"><img src="assets/brands/longliangzhangfu.webp" alt="龙粮张府包装" loading="lazy"></div><div class="info"><b>龙粮张府</b><dl><dt>所属基地</dt><dd>五常市川江米业有限公司</dd><dt>产区</dt><dd>五常 · 稻花香产区</dd><dt>产品线</dt><dd>五常大米 · 稻花香</dd></dl></div></div><div class="bdetail" data-bpanel="3"><div class="big"><img src="assets/brands/tongxianghe.webp" alt="通乡河包装" loading="lazy"></div><div class="info"><b>通乡河</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>东北珍珠米</dd></dl></div></div><div class="bdetail" data-bpanel="4"><div class="big"><img src="assets/brands/qiudaofu.webp" alt="秋稻夫包装" loading="lazy"></div><div class="info"><b>秋稻夫</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>稻香米 2 号</dd></dl></div></div><div class="bdetail" data-bpanel="5"><div class="big"><img src="assets/brands/laohuangtian.webp" alt="老荒田包装" loading="lazy"></div><div class="info"><b>老荒田</b><dl><dt>所属基地</dt><dd>海伦市金利米业有限公司</dd><dt>产区</dt><dd>海伦 · 寒地黑土硒都</dd><dt>产品线</dt><dd>生态稻香米</dd><dt>资质</dt><dd>黑龙江好粮油</dd></dl></div></div></div>
+    <p class="bnote reveal">五常川江 · 五常稻花香产区　｜　海伦金利 · 寒地黑土硒都</p><p class="bhead reveal">主推四款</p><div class="fgrid reveal"><a class="fcard reveal" href="brand/liangzhongdi.html"><span class="fshot"><img src="assets/brands/liangzhongdi.webp" alt="粮中帝包装" loading="lazy"><span class="fbadge">双核心品牌</span></span><span class="fcap"><b>粮中帝</b><em>五常川江 · 五常大米 · 稻花香</em><i>查看详情</i></span></a><a class="fcard reveal" href="brand/beihuangtian.html"><span class="fshot"><img src="assets/brands/beihuangtian.webp" alt="北荒田包装" loading="lazy"><span class="fbadge">双核心品牌</span></span><span class="fcap"><b>北荒田</b><em>五常川江 · 五常大米 · 稻花香</em><i>查看详情</i></span></a><a class="fcard reveal" href="brand/qiudaofu.html"><span class="fshot"><img src="assets/brands/qiudaofu.webp" alt="秋稻夫包装" loading="lazy"><span class="fbadge">老品牌</span></span><span class="fcap"><b>秋稻夫</b><em>海伦金利 · 稻香米 2 号</em><i>查看详情</i></span></a><a class="fcard reveal" href="brand/laohuangtian.html"><span class="fshot"><img src="assets/brands/laohuangtian.webp" alt="老荒田包装" loading="lazy"><span class="fbadge">黑龙江好粮油</span></span><span class="fcap"><b>老荒田</b><em>海伦金利 · 生态稻香米</em><i>查看详情</i></span></a></div><p class="bsub reveal">点击图片，查看每款米的品牌沿革与详细内容</p><p class="bhead reveal">其他品牌</p><ul class="blist reveal"><li><b>龙粮张府</b><span>五常川江 · 稻花香</span></li><li><b>通乡河</b><span>海伦金利 · 珍珠米</span></li></ul>
     <p class="note reveal">聚焦「北荒田 ＋ 粮中帝」双核心品牌，联动战略合作商打造标杆市场，全域渗透终端。</p>
   </section>
 
