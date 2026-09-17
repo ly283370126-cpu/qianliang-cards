@@ -119,7 +119,11 @@ picture{display:contents}
    集团名单行：拆两行显琐碎，宁要一行清晰；字号按屏宽自适应。
    入场：logo 虚焦成像 → 集团名擦除显现 → 金线从中心展开（无扫光）。 */
 .hero-brand{position:relative;display:flex;flex-direction:column;align-items:center;
-  padding:calc(clamp(28px,4svh,46px) + env(safe-area-inset-top)) var(--pad) 0}
+  /* logo 那张 webp 四周几乎没留白（图上内容底边离图框只有 4px），
+     所以光靠图片自身留白 = 集团名贴着 logo（实测框间距 0、肉眼间隙约 8px）。
+     这里显式给 gap，把两者分开。padding-top 则把整块往下放。 */
+  gap:clamp(16px,2.6svh,26px);
+  padding:calc(clamp(46px,7svh,84px) + env(safe-area-inset-top)) var(--pad) 0}
 .hb-mark{position:relative;display:block;line-height:0;
   animation:hbMark 1.25s cubic-bezier(.16,1,.3,1) both}
 .hb-mark img{width:clamp(158px,50vw,250px);height:auto;display:block;
@@ -324,7 +328,7 @@ p{margin:0 0 15px}
 .struct .top b{display:block;font-size:15px;font-weight:600;letter-spacing:.03em}
 .struct .top span{font-size:12px;color:var(--paper-faint)}
 .struct .cap2{font-size:11.5px;letter-spacing:.2em;color:var(--gold);margin:22px 0 10px}
-.struct .sectors{display:flex;flex-wrap:wrap;gap:7px;margin:0}
+.struct .sectors{display:flex;flex-wrap:wrap;gap:7px;margin:0;align-items:flex-start}
 .struct .sectors span{font-size:12.5px;color:var(--gold-lt);border:1px solid var(--gold-line);border-radius:999px;padding:5px 13px}
 .struct ul{list-style:none;margin:16px 0 0;padding:0}
 .struct ul li{font-size:13px;color:var(--paper-dim);padding:7px 0;break-inside:avoid;line-height:1.55}
@@ -549,7 +553,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
 /* ---------- 矮屏(SE 等)收紧 ----------
    ⚠️ 这两档必须放在样式表【最后】：放前面会被后定义的基础规则覆盖掉（这个坑踩过一次）。 */
 @media (max-height:660px){
-  .hero-brand{padding-top:calc(clamp(26px,3.5svh,34px) + env(safe-area-inset-top))}
+  .hero-brand{padding-top:calc(clamp(30px,4.2svh,42px) + env(safe-area-inset-top));gap:14px}
   .hb-mark img{width:clamp(120px,38vw,160px)}
   .hb-name{font-size:clamp(15px,calc((100vw - 46px)/15),22px)}
   .hb-lock{gap:12px}
@@ -559,7 +563,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
   .hero-inner{padding-bottom:calc(34px + 2svh)}
 }
 @media (max-height:520px){
-  .hero-brand{padding-top:calc(clamp(22px,3svh,30px) + env(safe-area-inset-top))}
+  .hero-brand{padding-top:calc(clamp(24px,3.4svh,34px) + env(safe-area-inset-top));gap:10px}
   .hb-mark img{width:96px}
   .hb-name{font-size:clamp(13px,calc((100vw - 46px)/15.5),19px)}
   .hb-lock{gap:9px}
@@ -641,7 +645,7 @@ footer{margin-top:56px;padding:26px 0 calc(34px + env(safe-area-inset-bottom));b
         <details class="acc reveal"><summary>企业文化<em>定位 · 使命 · 核心价值观</em></summary>
           <div class="accbody"><dl class="kv reveal"><div class="r"><dt>企业定位</dt><dd>做中国高品质的大米生产运营服务商</dd></div><div class="r"><dt>企业使命</dt><dd>扎根东北黑土地，凭优质东北大米带给客户美食享受，为促使五常大米享誉全国，帮助联盟商打造各自区域内东北大米头部经销商</dd></div><div class="r"><dt>企业宗旨</dt><dd>专注高品质东北大米的种植研发与科学生产，努力实现客户、企业和员工共赢</dd></div><div class="r"><dt>企业理念</dt><dd>行正道，做正品，出好米，利苍生</dd></div><div class="r"><dt>企业愿景</dt><dd>让“东北”大米，走进千家万户的餐桌</dd></div></dl><div class="values reveal"><div><b>诚信</b><i>社会层面</i><p>为人们提供值得信赖的优质大米</p></div><div><b>开拓</b><i>客户层面</i><p>让更多的客户都满意而归</p></div><div><b>正直</b><i>员工层面</i><p>坚守底线，以德为先，坦诚公正不唯上，成为自己岗位最好的专家</p></div><div><b>创新</b><i>公司层面</i><p>勤学实干提升专业，协调发展共享未来</p></div></div><div class="quoteblock reveal"><p>乾粮集团始终秉持开拓进取、众志成城的企业精神，营造化繁为简、合作共赢的企业文化，行进着一条从供应链管理到产品服务、从生产制造到自主创新的发展道路。</p></div></div></details>
         <details class="acc reveal"><summary>集团结构<em>控股平台 · 五大板块 · 下属公司</em></summary>
-          <div class="accbody"><div class="struct reveal"><div class="top"><div><span class="lb">控股平台</span><b>海南德粮控股有限公司</b><span>集团投资控股平台</span></div><div><span class="lb">集团公司</span><b>黑龙江乾粮农业集团有限公司</b><span>2011 年起步 · 2021 年组建集团</span></div></div><div class="sectors"><p class="cap2">产业板块</p><span>基地种植</span><span>粮食贸易</span><span>生产销售</span><span>投资管理</span><span>品牌运营</span></div><p class="cap2" style="margin-top:24px">下属公司</p><ul><li>海伦市金谷水稻种植农民专业合作社</li><li>黑龙江半亩田农业科技有限公司</li><li>黑龙江坤仓农业发展有限公司</li><li>黑龙江坤粮米业有限公司</li><li>海伦市金利米业有限公司</li><li>五常市川江米业有限公司</li><li>黑龙江万家粮仓管理有限公司</li><li>黑龙江米客企业管理有限公司</li></ul></div></div></details>
+          <div class="accbody"><div class="struct reveal"><div class="top"><div><span class="lb">控股平台</span><b>海南德粮控股有限公司</b><span>集团投资控股平台</span></div><div><span class="lb">集团公司</span><b>黑龙江乾粮农业集团有限公司</b><span>2011 年起步 · 2021 年组建集团</span></div></div><p class="cap2">产业板块</p><div class="sectors"><span>基地种植</span><span>粮食贸易</span><span>生产销售</span><span>投资管理</span><span>品牌运营</span></div><p class="cap2" style="margin-top:24px">下属公司</p><ul><li>海伦市金谷水稻种植农民专业合作社</li><li>黑龙江半亩田农业科技有限公司</li><li>黑龙江坤仓农业发展有限公司</li><li>黑龙江坤粮米业有限公司</li><li>海伦市金利米业有限公司</li><li>五常市川江米业有限公司</li><li>黑龙江万家粮仓管理有限公司</li><li>黑龙江米客企业管理有限公司</li></ul></div></div></details>
       </section>
     </div>
   </details>
